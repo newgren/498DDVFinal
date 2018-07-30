@@ -1,0 +1,33 @@
+body {
+  font: 11px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.tooltip {
+  border: 1px solid black;
+  box-shadow: -2px 2px 2px rgba(0,0,0,0.5);
+  padding: 5px;
+  position: absolute;
+  pointer-events: none;
+}
+
+.bar > div {
+  border:1px solid black;
+  float: left;
+  font-size:14px;
+  padding: 2px;
+}
+
+.bar > div:hover {
+  background-color:#eee;
+}
+
+svg {
+  /* display: none; */
+}
