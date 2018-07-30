@@ -14,13 +14,15 @@
   <!-- <br/> -->
 
   <div class="bar">
-    <div id="desc" onclick="setState(0);">Essay</div>
-    <div id="one" onclick="setState(1);">1</div>
-    <div id="two" onclick="setState(2);">2</div>
-    <div id="three" onclick="setState(3);">3</div>
-    <div id="four" onclick="setState(4);">4</div>
+    <div class="sel" id="desc" onclick="setState(0);">Essay</div>
+    <div class="sel" id="one" onclick="setState(1);">1</div>
+    <div class="sel" id="two" onclick="setState(2);">2</div>
+    <div class="sel" id="three" onclick="setState(3);">3</div>
+    <div class="sel" id="four" onclick="setState(4);">4</div>
+    <div class="sel" id="four" onclick="setState(5);">5</div>
+    <div class="sel" id="four" onclick="setState(6);">6</div>
 
-    <-Click to change scenes!
+    <span id='help'><-Click to change scenes!</span>
   </div>
 
   <br/><br/>
@@ -34,8 +36,8 @@
 Structure: Interactive Slideshow<br/>
 Scenes: There are two scenes, corresponding to different visualizations of the presented data<br/>
 Annotations: Annotations are displayed throughout to guide the presentation<br/>
-Parameters: Slide number is a parameter that the user changes to walk through the visualization.<br/>
-Triggers: When the slide number parameter is changed, this triggers what annotations and scenes should be rendered, as well as other parameters, like whether each annotation is enabled, to toggle<br/>
+Parameters: Slide number is a parameter that the user changes to walk through the visualization<br/>
+Triggers: When the slide number parameter is changed, this triggers what annotations and scenes should be rendered. The viewer is made aware of changes through the use of color and text.<br/>
 <br/>
 <b>Description:</b>
 <br/>

@@ -1,8 +1,18 @@
+function colorize(n) {
+	let elems = document.getElementsByClassName("sel");
+	for (let i = 0; i < elems.length; i++) {
+		elems[i].style.backgroundColor = "white";
+	}
+	elems[n].style.backgroundColor = "lightgrey";
+}
+
 function setState(state) {
 	d3.selectAll("svg").remove();
+	d3.selectAll("#help").remove();
+
 	d3.selectAll("tooltip").remove();
 	d3.selectAll(".notebox").remove();
-
+	colorize(state);
 
 	if(state == 0) {
 		document.getElementById("essay").style.display = "block";
@@ -156,7 +166,7 @@ if (state >= 1 && state <= 3) {
 
 
 }
-if (state == 4) {
+if (state >= 4) {
 
 // Load in my states data!
 d3.csv("data.csv", function(data) {
@@ -201,6 +211,19 @@ d3.csv("data.csv", function(data) {
 			    		.attr("class", "tooltip")
 			    		.style("opacity", 0);
 
+			if(state == 4) {
+					note = "<div class='note'>This chart lays out the data in a different way</div>";
+			}
+			if(state == 5) {
+					note = "<div class='note'>Color saturation indicates PT use...</div>";
+			}
+			if(state == 6) {
+					note = "<div class='note'>... while dot size indicates GDP</div>";
+			}
+			var thing = d3.select("body").append("div")
+			.attr("class", "notebox")
+				.html(note);
+
 	    for (var i = 0; i < data.length; i++) {
 	    	// Grab State Name
 	    	var dataState = center[i].state;
@@ -241,8 +264,28 @@ d3.csv("data.csv", function(data) {
 	  	.attr("d", path)
 	  	.style("stroke", "#fff")
 	  	.style("stroke-width", "1")
-	  	.style("fill", d3.rgb("#EDEDED"));
-	  // Map the cities I have lived in!
+	  	.style("fill", function(d) {
+				if(state < 6) {
+					return color(d.properties.pct);
+				}
+				return d3.rgb("#EDEDED")
+			}).on("mouseover", function(d) {
+	      	div.transition()
+	        	   .duration(200)
+	             .style("opacity", .9);
+	             div.html(d.properties.name + "<br/> " + d3.format("(.1f")(100*d.properties.pct)
+	 		        + "% use PT<br/>$" + d3.format("(,.0f")(d.properties.gdp) + "B GDP")
+	             .style("left", (d3.event.pageX) + "px")
+	             .style("top", (d3.event.pageY - 28) + "px");
+	  	})
+
+	      // fade out tooltip on mouse out
+	      .on("mouseout", function(d) {
+	          div.transition()
+	             .duration(500)
+	             .style("opacity", 0);
+	      });;
+	  if (state == 6) {
 	  svg.selectAll("circle")
 	  	.data(json.features)
 	  	.enter()
@@ -266,22 +309,8 @@ d3.csv("data.csv", function(data) {
 
 	  	// Modification of custom tooltip code provided by Malcolm Maclean, "D3 Tips and Tricks"
 	  	// http://www.d3noob.org/2013/01/adding-tooltips-to-d3js-graph.html
-	  	.on("mouseover", function(d) {
-	      	div.transition()
-	        	   .duration(200)
-	             .style("opacity", .9);
-	             div.text(d.properties.name)
-	             .style("left", (d3.event.pageX) + "px")
-	             .style("top", (d3.event.pageY - 28) + "px");
-	  	})
 
-	      // fade out tooltip on mouse out
-	      .on("mouseout", function(d) {
-	          div.transition()
-	             .duration(500)
-	             .style("opacity", 0);
-	      });
-
+			}
 
 	  // Modified Legend Code from Mike Bostock: http://bl.ocks.org/mbostock/3888852
 	  var legend = d3.select("body").append("svg")
