@@ -9,13 +9,36 @@
 <link rel="stylesheet" href="style.css">
 
 <body>
+  <h1>UIUC CS498 Data-Driven Visualization Final Project</h1>
+  <h3>Travis Newgren</h3>
+  <br/>
 
   <div class="bar">
-    <div class="desc">Essay</div>
-    <div class="one" onclick="trigger(1);">One</div>
-    <div class="two" onclick="trigger(2);">Two</div>
+    <div id="desc" onclick="trigger(0);">Essay</div>
+    <div id="one" onclick="trigger(1);">1</div>
+    <div id="two" onclick="trigger(2);">2</div>
   </div>
 
+  <br/><br/>
+
+  <p id="essay">
+
+    <b>Question:</b> Do states with higher public transportation use have higher GDP?
+<br/><br/>
+<b>Essay:</b>
+<br/>
+Structure: Interactive Slideshow<br/>
+Scenes: There are two scenes, corresponding to different visualizations of the presented data<br/>
+Annotations: Annotations are displayed throughout to guide the presentation<br/>
+Parameters: Slide number is a parameter that the user changes to walk through the visualization.<br/>
+Triggers: When the slide number parameter is changed, this triggers what annotations and scenes should be rendered<br/>
+<br/>
+<b>Sources:</b>
+<br/>
+U.S. Bureau of Transporation, https://www.bts.gov/content/commuting-work<br/>
+Bureau of Economic Analysis, https://www.bea.gov/newsreleases/regional/gdp_state/gsp_glance.htm
+
+</p>
   <svg width="200" height="200" id="svg1"></svg>
   <svg width="200" height="200" id="svg2"></svg>
 
@@ -24,18 +47,36 @@
   <script src="https://d3js.org/d3-geo.v1.min.js"></script>
 
   <script src="scriptA.js"></script>
-  <!-- <script src="scriptB.js"></script> -->
+  <script src="scriptB.js"></script>
 
   <script type="text/javascript">
     function trigger(n) {
-      if(n === 1) {
-        document.getElementById("svg1").style.display = "block";
+      if (n == 0) {
+        document.getElementById("essay").style.display = "block";
+        document.getElementById("desc").style.backgroundColor = "lightgrey";
+        document.getElementById("one").style.backgroundColor = "white";
+        document.getElementById("two").style.backgroundColor = "white";
+
+        document.getElementById("svg1").style.display = "none";
         document.getElementById("svg2").style.display = "none";
       }
+      if(n === 1) {
+        document.getElementById("essay").style.display = "none";
+        document.getElementById("svg1").style.display = "block";
+        document.getElementById("svg2").style.display = "none";
+
+        document.getElementById("desc").style.backgroundColor = "white";
+        document.getElementById("one").style.backgroundColor = "lightgrey";
+        document.getElementById("two").style.backgroundColor = "white";
+      }
       if(n === 2) {
+        document.getElementById("essay").style.display = "none";
         document.getElementById("svg2").style.display = "block";
         document.getElementById("svg1").style.display = "none";
 
+        document.getElementById("desc").style.backgroundColor = "white";
+        document.getElementById("one").style.backgroundColor = "white";
+        document.getElementById("two").style.backgroundColor = "lightgrey";
       }
     }
   </script>

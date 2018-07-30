@@ -35,8 +35,8 @@ var svg = d3.select("#svg1")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 // add the tooltip area to the webpage
-var tooltip = d3.select("body").append("div")
-    .attr("class", "tooltip")
+var tooltip = d3.selectAll("tooltipA")
+    .attr("class", "tooltipA")
     .style("opacity", 0);
 
 // load data
@@ -78,10 +78,10 @@ d3.csv("data.csv", function(error, data) {
       .text("State GDP (billions)");
 
   // draw dots
-  svg.selectAll(".dot")
+  svg.selectAll(".dotA")
       .data(data)
     .enter().append("circle")
-      .attr("class", "dot")
+      .attr("class", "dotA")
       .attr("r", 3.5)
       .attr("cx", xMap)
       .attr("cy", yMap)
@@ -105,10 +105,10 @@ d3.csv("data.csv", function(error, data) {
       });
 
   // draw legend
-  var legend = svg.selectAll(".legend")
+  var legend = svg.selectAll(".legendA")
       .data([10, 16745843])
     .enter().append("g")
-      .attr("class", "legend")
+      .attr("class", "legendA")
       .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
   // draw legend colored rectangles

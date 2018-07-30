@@ -28,6 +28,16 @@ body {
   background-color:#eee;
 }
 
-svg {
-  /* display: none; */
+p {
+  font-family: times;
+  font-size: 12pt;
+  padding: 20px;
+}
+
+#desc {
+  background-color: lightgrey;
+}
+
+#svg1, #svg2 {
+  display: none;
 }
