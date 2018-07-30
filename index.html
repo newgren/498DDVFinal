@@ -10,13 +10,17 @@
 
 <body>
   <h1>UIUC CS498 Data-Driven Visualization Final Project</h1>
-  <h3>Travis Newgren</h3>
-  <br/>
+  <!-- <h3>Travis Newgren</h3> -->
+  <!-- <br/> -->
 
   <div class="bar">
-    <div id="desc" onclick="trigger(0);">Essay</div>
-    <div id="one" onclick="trigger(1);">1</div>
-    <div id="two" onclick="trigger(2);">2</div>
+    <div id="desc" onclick="setState(0);">Essay</div>
+    <div id="one" onclick="setState(1);">1</div>
+    <div id="two" onclick="setState(2);">2</div>
+    <div id="three" onclick="setState(3);">3</div>
+    <div id="four" onclick="setState(4);">4</div>
+
+    <-Click to change scenes!
   </div>
 
   <br/><br/>
@@ -31,25 +35,33 @@ Structure: Interactive Slideshow<br/>
 Scenes: There are two scenes, corresponding to different visualizations of the presented data<br/>
 Annotations: Annotations are displayed throughout to guide the presentation<br/>
 Parameters: Slide number is a parameter that the user changes to walk through the visualization.<br/>
-Triggers: When the slide number parameter is changed, this triggers what annotations and scenes should be rendered<br/>
+Triggers: When the slide number parameter is changed, this triggers what annotations and scenes should be rendered, as well as other parameters, like whether each annotation is enabled, to toggle<br/>
 <br/>
+<b>Description:</b>
+<br/>
+  This dashboard contains two charts.<br/>
+     The first chart is a scatter plot that illustrates GDP along the vertical axis and the % Public Transportation (%PT) along the horizontal axis. Each point represents a U.S. state, and is colored based on the number of total workers in that state. A scatter plot works to visualize this data since the independent variables (GDP and %PT) are quantitative and continuous. The axes were scaled and converted to logarithmic scale in order to nicely spread out the data for interpretation. This has no affect on answering the question, since we are only concerned about comparing points in our data, and not exact values.<br/>
+     The second chart is a choropleth, mapping onto each state a color based on its %PT. Greater saturation of the color represents a greater pubic transportation percentage. Additionally, the area of each circle maps to the state’s GDP. Area is an appropriate measure since we are only concerned about comparing data elements. This chart works well to visualize the data since our independent variables are quantitative and continuous, allowing a linear change in saturation and area to map to change in %PT and GDP, respectively.<br/>
+     Axes and legends are carefully labeled to best aid the viewer in accurately interpreting the data.<br/>
+     For both charts, continuous color palettes are used since they map to quantitative variables. Color gradients are based on a logarithmic scale in order to better distinguish values. Separate color palettes are used for each chart to not confuse the viewer since each chart uses color to represent a different variable.
+     This data is shown in the context of an overview, allowing the user to view all of the data and come to their own conclusion regarding the question at hand.
+     <br/><br/>
+
+
 <b>Sources:</b>
 <br/>
 U.S. Bureau of Transporation, https://www.bts.gov/content/commuting-work<br/>
 Bureau of Economic Analysis, https://www.bea.gov/newsreleases/regional/gdp_state/gsp_glance.htm
 
 </p>
-  <svg width="200" height="200" id="svg1"></svg>
-  <svg width="200" height="200" id="svg2"></svg>
-
   <script src="./d3.min.js"></script>
   <script src="https://d3js.org/d3-format.v1.min.js"></script>
   <script src="https://d3js.org/d3-geo.v1.min.js"></script>
 
-  <script src="scriptA.js"></script>
-  <script src="scriptB.js"></script>
+  <script src="script.js"></script>
 
   <script type="text/javascript">
+
     function trigger(n) {
       if (n == 0) {
         document.getElementById("essay").style.display = "block";
@@ -59,6 +71,8 @@ Bureau of Economic Analysis, https://www.bea.gov/newsreleases/regional/gdp_state
 
         document.getElementById("svg1").style.display = "none";
         document.getElementById("svg2").style.display = "none";
+
+        toggleLegend("B", "none");
       }
       if(n === 1) {
         document.getElementById("essay").style.display = "none";
@@ -68,6 +82,8 @@ Bureau of Economic Analysis, https://www.bea.gov/newsreleases/regional/gdp_state
         document.getElementById("desc").style.backgroundColor = "white";
         document.getElementById("one").style.backgroundColor = "lightgrey";
         document.getElementById("two").style.backgroundColor = "white";
+
+        toggleLegend("B", "none");
       }
       if(n === 2) {
         document.getElementById("essay").style.display = "none";
@@ -77,6 +93,15 @@ Bureau of Economic Analysis, https://www.bea.gov/newsreleases/regional/gdp_state
         document.getElementById("desc").style.backgroundColor = "white";
         document.getElementById("one").style.backgroundColor = "white";
         document.getElementById("two").style.backgroundColor = "lightgrey";
+
+        toggleLegend("B", "block");
+      }
+    }
+
+    function toggleLegend(letter, status) {
+      let elems = document.getElementsByClassName("legend"+letter);
+      for (let i = 0; i < elems.length; i++) {
+        elems[i].style.display = status;
       }
     }
   </script>

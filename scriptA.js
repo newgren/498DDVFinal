@@ -1,39 +1,43 @@
-var margin = {top: 20, right: 20, bottom: 30, left: 80},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
 
-// setup x
-var xValue = function(d) { return d["% Public Transportation"];}, // data -> value
-    xScale = d3.scale.log().range([0, width]), // value -> display
-    xMap = function(d) { return xScale(xValue(d));}, // data -> display
-    xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickValues([.4, .6, .8, 1, 2, 4, 6, 8, 10, 20]).tickFormat(function(n) { return n + "%"});
-
-// setup y
-var yValue = function(d) { return d["GDP"];}, // data -> value
-    yScale = d3.scale.log().range([height, 0]), // value -> display
-    yMap = function(d) { return yScale(yValue(d));}, // data -> display
-    yAxis = d3.svg.axis().scale(yScale).orient("left").tickFormat(function(n) { return n});
-
-// setup fill color
-var cValue = function(d) { return d["NumWorkers"];},
-//TODO COLOR
-    cScale = d3.scale.log().base(Math.E).domain([0.1, 16745843]).interpolate(d3.interpolateHcl).range([d3.rgb("#FFCA94"), d3.rgb('#FF8100')]),
-    color = function(d) {return cScale(d)};
-
-// add the graph canvas to the body of the webpage
-var svg = d3.select("#svg1")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-// add the tooltip area to the webpage
-var tooltip = d3.selectAll("tooltipA")
-    .attr("class", "tooltipA")
-    .style("opacity", 0);
 
 // load data
 d3.csv("data.csv", function(error, data) {
+
+  var margin = {top: 20, right: 20, bottom: 30, left: 80},
+      width = 960 - margin.left - margin.right,
+      height = 500 - margin.top - margin.bottom;
+
+  // setup x
+  var xValue = function(d) { return d["% Public Transportation"];}, // data -> value
+      xScale = d3.scale.log().range([0, width]), // value -> display
+      xMap = function(d) { return xScale(xValue(d));}, // data -> display
+      xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickValues([.4, .6, .8, 1, 2, 4, 6, 8, 10, 20]).tickFormat(function(n) { return n + "%"});
+
+  // setup y
+  var yValue = function(d) { return d["GDP"];}, // data -> value
+      yScale = d3.scale.log().range([height, 0]), // value -> display
+      yMap = function(d) { return yScale(yValue(d));}, // data -> display
+      yAxis = d3.svg.axis().scale(yScale).orient("left").tickFormat(function(n) { return n});
+
+  // setup fill color
+  var cValue = function(d) { return d["NumWorkers"];},
+  //TODO COLOR
+      cScale = d3.scale.log().base(Math.E).domain([0.1, 16745843]).interpolate(d3.interpolateHcl).range([d3.rgb("#FFCA94"), d3.rgb('#FF8100')]),
+      color = function(d) {return cScale(d)};
+
+  // add the graph canvas to the body of the webpage
+  var svg = d3.select("#svg1")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  // add the tooltip area to the webpage
+  var tooltip = d3.selectAll("tooltipA")
+      .attr("class", "tooltipA")
+      .style("opacity", 0);
+
+
 
   // change string (from CSV) into number format
   data.forEach(function(d) {
@@ -78,10 +82,7 @@ d3.csv("data.csv", function(error, data) {
       .attr("r", 3.5)
       .attr("cx", xMap)
       .attr("cy", yMap)
-      .style("fill", function(d) {
-        if(d.State == "California") {
-          console.log(cValue(d));
-        }return color(cValue(d));})
+      .style("fill", function(d) {return color(cValue(d));})
       .on("mouseover", function(d) {
           tooltip.transition()
                .duration(200)
@@ -98,11 +99,13 @@ d3.csv("data.csv", function(error, data) {
       });
 
   // draw legend
-  var legend = svg.selectAll(".legendA")
+  var legend = d3.select("body").append("svg")
+
+  .attr("class", "legendA")
       .data([10, 16745843])
-    .enter().append("g")
-      .attr("class", "legendA")
-      .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+      .enter()
+        .append("g")
+          .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
   // draw legend colored rectangles
   legend.append("rect")
